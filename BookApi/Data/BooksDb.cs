@@ -35,5 +35,10 @@ namespace BookApi.Data
         {
             return Books.Find(book => book.Id == id);
         }
+
+        public void CreateBook(Book book)
+        {
+            Books.Add(book);
+        }
     }
 }

@@ -10,11 +10,12 @@ namespace BookApi.Controllers
     [Route("books")]
     [ApiController]
     public class BooksController : ControllerBase
-    {
+    {        
         private IBooksDb booksDb;
 
         public BooksController(IBooksDb booksDb)
         {
+            // Instans av klassen som agerar databas
             this.booksDb = booksDb;
         }
 
@@ -33,6 +34,24 @@ namespace BookApi.Controllers
                 return NotFound();
             }
             return book;
+        }
+
+        [HttpPost]
+        public ActionResult<Book> CreateBook(Book _book)
+        {
+            Book book = new Book
+            {
+                Id = Guid.NewGuid(),
+                Title = _book.Title,
+                Author = _book.Author,
+                PageCount = _book.PageCount,
+                Departement = _book.Departement,
+                ISBN = _book.ISBN,
+            };
+
+            booksDb.CreateBook(book);
+
+            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
         }
     }
 
