@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi.Controllers
-{    
-    
+{   
     //[Route("api/[controller]")]
     [Route("books")]
     [ApiController]
@@ -37,7 +36,7 @@ namespace BookApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Book> CreateBook(Book _book)
+        public ActionResult<Book> CreateBook(CreateBookDTO _book)
         {
             Book book = new Book
             {
@@ -53,7 +52,5 @@ namespace BookApi.Controllers
 
             return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
         }
-    }
-
-    
+    }    
 }
