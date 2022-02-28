@@ -25,6 +25,12 @@ namespace BookApi.Data
         /// </summary>
         /// <returns>IEnumerable innehållandes objekt av typen Book</returns>
         IEnumerable<Book> GetBooks();
+
+        /// <summary>
+        /// Updaterar en bok
+        /// </summary>
+        /// <param name="book">Det objekt av typ Book som ska uppdateras</param>
+        public void UpdateBook(Book book);
         
     }
 }

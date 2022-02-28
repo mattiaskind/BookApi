@@ -40,5 +40,11 @@ namespace BookApi.Data
         {
             Books.Add(book);
         }
+
+        public void UpdateBook(Book book)
+        {
+            var index = Books.FindIndex(b => b.Id == book.Id);
+            Books[index] = book;
+        }
     }
 }
