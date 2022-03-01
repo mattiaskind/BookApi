@@ -31,7 +31,7 @@ namespace BookApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Book> GetBook(Guid id)
         {
-            var book = booksDb.GetBook(id);            
+            Book book = booksDb.GetBook(id);            
             if(book is null)
             {
                 return NotFound();
@@ -82,6 +82,17 @@ namespace BookApi.Controllers
 
             // Updatera aktuell bok med den nya informationen
             booksDb.UpdateBook(updatedBook);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteBook(Guid id)
+        {
+            Book book = booksDb.GetBook(id);
+            if (book is null) return NotFound();
+
+            booksDb.DeleteBook(book);
 
             return NoContent();
         }

@@ -11,26 +11,38 @@ namespace BookApi.Data
         /// </summary>
         /// <param name="id">Unikt id för önskad bok</param>
         /// <returns>Objekt av typ Book om bok hittas med aktuellt id, annars null</returns>
+        /// 
+
+        /// <summary>
+        /// Hämtar en bok i samlingen
+        /// </summary>
+        /// <param name="id">Bokens id</param>
+        /// <returns>Ett objekt av typen Book, annars null</returns>
         Book GetBook(Guid id);
 
         /// <summary>
         /// Lägger till en bok till samlingen
         /// </summary>
-        /// <param name="book">Objektet som ska läggas till</param>
-        /// <returns></returns>
+        /// <param name="book">Boken som ska läggas till. Ett objekt av typen Book</param>
         public void CreateBook(Book book);
 
         /// <summary>
-        /// Returnerar samtliga böcker som finns lagrade i samlingen
+        /// Hämtar böckerna som finns lagrade i instansen av klassen
         /// </summary>
-        /// <returns>IEnumerable innehållandes objekt av typen Book</returns>
+        /// <returns>IEnumerable av typen Book</returns>
         IEnumerable<Book> GetBooks();
 
         /// <summary>
-        /// Updaterar en bok
+        /// Uppdatera informationen för en befintlig bok i samlingen
         /// </summary>
-        /// <param name="book">Det objekt av typ Book som ska uppdateras</param>
+        /// <param name="book">Boken som ska uppdateras. Ett objekt av typen Book</param>
         public void UpdateBook(Book book);
+
+        /// <summary>
+        /// Ta bort en bok i samlingen
+        /// </summary>
+        /// <param name="book">Boken som ska tas bort. Ett objekt av typen Book</param>
+        public void DeleteBook(Book book);
         
     }
 }

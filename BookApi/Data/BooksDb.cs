@@ -25,26 +25,31 @@ namespace BookApi.Data
                 ISBN = "9789113119526"
             }
         };
-
+        
         public IEnumerable<Book> GetBooks()
         {
             return Books;
         }
-
+      
         public Book GetBook(Guid id)
         {
             return Books.Find(book => book.Id == id);
         }
-
+                
         public void CreateBook(Book book)
         {
             Books.Add(book);
         }
-
+        
         public void UpdateBook(Book book)
         {
             var index = Books.FindIndex(b => b.Id == book.Id);
             Books[index] = book;
+        }
+        
+        public void DeleteBook(Book book)
+        {
+            Books.Remove(book);
         }
     }
 }
