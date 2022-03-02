@@ -21,28 +21,28 @@ namespace BookApi.Controllers
         // GET
         // /books
         [HttpGet]
-        public IEnumerable<Book> GetBooks()
+        public async Task<IEnumerable<Book>> GetBooksAsync()
         {
-            return booksDb.GetBooks();
+            return await booksDb.GetBooksAsync();
         }
 
         // GET
         // /books/{id}
         [HttpGet("{id}")]
-        public ActionResult<Book> GetBook(Guid id)
+        public async Task<ActionResult<Book>> GetBookAsync(Guid id)
         {
-            Book book = booksDb.GetBook(id);            
+            Book book = await booksDb.GetBookAsync(id);
             if(book is null)
             {
                 return NotFound();
             }
-            return book;
+            return Ok(book);
         }
 
         // POST
         // /books
         [HttpPost]
-        public ActionResult<Book> CreateBook(BookDTO bookDTO)
+        public async Task<ActionResult<Book>> CreateBookAsync(BookDTO bookDTO)
         {
             // Skapa ett nytt bok-objekt
             Book book = new Book
@@ -55,17 +55,20 @@ namespace BookApi.Controllers
                 ISBN = bookDTO.ISBN,
             };
 
-            booksDb.CreateBook(book);
-            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+
+            // Return 400 if error
+
+            await booksDb.CreateBookAsync(book);            
+            return CreatedAtAction(nameof(GetBookAsync), new { id = book.Id }, book);
         }
 
         // PUT
         // /book/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateBook(Guid id, BookDTO bookDTO)
+        public async Task<ActionResult> UpdateBookAsync(Guid id, BookDTO bookDTO)
         {
             // Hämta den bok som ska uppdateras
-            Book bookToUpdate = booksDb.GetBook(id);
+            Book bookToUpdate = await booksDb.GetBookAsync(id);
             if(bookToUpdate is null) return NotFound();
 
             // Skapa ett nytt objekt baserat på det nya dto-objektet men
@@ -78,21 +81,21 @@ namespace BookApi.Controllers
                 PageCount = bookDTO.PageCount,
                 Departement = bookDTO.Departement,
                 ISBN = bookDTO.ISBN,
-            };
+            };            
 
             // Updatera aktuell bok med den nya informationen
-            booksDb.UpdateBook(updatedBook);
+            await booksDb.UpdateBookAsync(updatedBook);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteBook(Guid id)
+        public async Task<ActionResult> DeleteBook(Guid id)
         {
-            Book book = booksDb.GetBook(id);
+            Book book = await booksDb.GetBookAsync(id);
             if (book is null) return NotFound();
 
-            booksDb.DeleteBook(book);
+            await booksDb.DeleteBookAsync(book);
 
             return NoContent();
         }

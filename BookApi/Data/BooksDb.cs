@@ -1,4 +1,5 @@
 ﻿using BookApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi.Data
 {
@@ -26,30 +27,39 @@ namespace BookApi.Data
             }
         };
         
-        public IEnumerable<Book> GetBooks()
+        public async Task<IEnumerable<Book>> GetBooksAsync()
         {
-            return Books;
+            // Data som ska returneras finns redan tillgänglig i listan med böcker
+            return await Task.FromResult(Books);
         }
       
-        public Book GetBook(Guid id)
+        public async Task<Book> GetBookAsync(Guid id)
         {
-            return Books.Find(book => book.Id == id);
+            var book = Books.Find(book => book.Id == id);
+            return await Task.FromResult(book);
         }
                 
-        public void CreateBook(Book book)
+        public async Task CreateBookAsync(Book book)
         {
             Books.Add(book);
+
+            await Task.CompletedTask;
         }
         
-        public void UpdateBook(Book book)
+        public async Task UpdateBookAsync(Book book)
         {
             var index = Books.FindIndex(b => b.Id == book.Id);
             Books[index] = book;
+            
+            await Task.CompletedTask;
         }
         
-        public void DeleteBook(Book book)
+        public async Task DeleteBookAsync(Book book)
         {
             Books.Remove(book);
+
+            await Task.CompletedTask;
+
         }
     }
 }

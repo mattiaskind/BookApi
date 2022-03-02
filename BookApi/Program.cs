@@ -10,6 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// För att hindra ett fel som uppstår när bok skapas då dotnet-ramverket tar bort ändelsen "async" i metodnamnen vid körning
+builder.Services.AddMvc(options => options.SuppressAsyncSuffixInActionNames = false);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
