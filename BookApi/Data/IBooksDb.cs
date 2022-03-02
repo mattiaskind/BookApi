@@ -7,14 +7,7 @@ namespace BookApi.Data
     public interface IBooksDb
     {
         /// <summary>
-        /// Söker efter ett bok-objekt med angivet id
-        /// </summary>
-        /// <param name="id">Unikt id för önskad bok</param>
-        /// <returns>Objekt av typ Book om bok hittas med aktuellt id, annars null</returns>
-        /// 
-
-        /// <summary>
-        /// Hämtar en bok i samlingen
+        /// Hämtar en specifik bok i samlingen
         /// </summary>
         /// <param name="id">Bokens id</param>
         /// <returns>Ett objekt av typen Book, annars null</returns>
