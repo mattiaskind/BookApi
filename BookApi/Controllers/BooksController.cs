@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookApi.Controllers
 {   
     //[Route("api/[controller]")]
-    [Route("books")]
+    [Route("books")]    
     [ApiController]
     public class BooksController : ControllerBase
     {        
@@ -19,11 +19,22 @@ namespace BookApi.Controllers
         }
 
         // GET
+        // Hämta alla böcker i listan
         // /books
         [HttpGet]
-        public async Task<IEnumerable<Book>> GetBooksAsync()
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooksAsync()
         {
-            return await booksDb.GetBooksAsync();
+            try
+            {
+                var books = await booksDb.GetBooksAsync();
+                return Ok(books);
+            }
+            catch (ArgumentException)
+            {
+
+                return NotFound("Books not found");
+            }     
+            
         }
 
         // GET
@@ -31,12 +42,17 @@ namespace BookApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBookAsync(Guid id)
         {
-            Book book = await booksDb.GetBookAsync(id);
-            if(book is null)
+            try
             {
-                return NotFound();
+                Book book = await booksDb.GetBookAsync(id);
+                return Ok(book);
             }
-            return Ok(book);
+            catch (ArgumentException)
+            {
+
+                throw;
+            }
+            
         }
 
         // POST

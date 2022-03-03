@@ -28,21 +28,22 @@ namespace BookApi.Data
         };
         
         public async Task<IEnumerable<Book>> GetBooksAsync()
-        {
-            // Data som ska returneras finns redan tillgänglig i listan med böcker
-            return await Task.FromResult(Books);
+        {            
+            var books = await Task.FromResult(Books);
+            if (books == null) throw new ArgumentException();
+            return books;
         }
       
         public async Task<Book> GetBookAsync(Guid id)
         {
             var book = Books.Find(book => book.Id == id);
+            if (book is null) throw new ArgumentException();
             return await Task.FromResult(book);
         }
                 
         public async Task CreateBookAsync(Book book)
         {
             Books.Add(book);
-
             await Task.CompletedTask;
         }
         
@@ -57,7 +58,6 @@ namespace BookApi.Data
         public async Task DeleteBookAsync(Book book)
         {
             Books.Remove(book);
-
             await Task.CompletedTask;
 
         }
