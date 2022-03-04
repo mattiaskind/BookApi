@@ -23,7 +23,7 @@ namespace BookApi.Data
         /// Hämtar böckerna som finns lagrade i instansen av klassen
         /// </summary>
         /// <returns>IEnumerable av typen Book</returns>
-        Task<IEnumerable<Book>> GetBooksAsync();
+        Task<List<Book>> GetBooksAsync();
 
         /// <summary>
         /// Uppdatera informationen för en befintlig bok i samlingen

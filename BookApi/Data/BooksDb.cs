@@ -26,18 +26,20 @@ namespace BookApi.Data
                 ISBN = "9789113119526"
             }
         };
+
+        // Nedanstående metoder används för att hämta och lägga in data i listan
+        // Man kan argumentera för att dessa borde ligga i en egen service-klass
+        // men eftersom metoderna skulle kunna liknas vid olika databasförfrågningar får
+        // de ändå vara kvar här, där det finns en direkt koppling till data.
         
-        public async Task<IEnumerable<Book>> GetBooksAsync()
+        public async Task<List<Book>> GetBooksAsync()
         {            
-            var books = await Task.FromResult(Books);
-            if (books == null) throw new ArgumentException();
-            return books;
+            return await Task.FromResult(Books);            
         }
       
         public async Task<Book> GetBookAsync(Guid id)
         {
-            var book = Books.Find(book => book.Id == id);
-            if (book is null) throw new ArgumentException();
+            var book = Books.Find(book => book.Id == id);            
             return await Task.FromResult(book);
         }
                 
@@ -50,8 +52,7 @@ namespace BookApi.Data
         public async Task UpdateBookAsync(Book book)
         {
             var index = Books.FindIndex(b => b.Id == book.Id);
-            Books[index] = book;
-            
+            Books[index] = book;            
             await Task.CompletedTask;
         }
         

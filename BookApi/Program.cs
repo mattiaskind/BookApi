@@ -4,7 +4,6 @@ using BookApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Registrerar databasklassen som en dependency, baserat på interfacet databasklassen implementerar
-// Med singleton kommer en och samma instans att vara tillgänglig genom applikationens hela cykel
 builder.Services.AddSingleton<IBooksDb, BooksDb>();
 
 builder.Services.AddControllers();
