@@ -68,13 +68,28 @@ namespace BookApi.Test
         }
 
         [TestMethod]
-        public async Task Create_One_Book_Success()
+        public async Task Create_Book_Success()
         {
-            // Från början ska inga objekt finnas i listan
+            var mockBooksDb = new Mock<IBooksDb>();            
+            var controller = new BooksController(mockBooksDb.Object);
 
-            // Därefter skapas ett objekt
+            BookDTO b = new BookDTO
+            {
+                Title = "Title",
+                Author = "Author",
+                PageCount = 100,
+                Departement = "D",
+                ISBN = "0123456789"
+            };
 
-            // Listan ska returnera ett objekt
+            var result = await controller.CreateBookAsync(b);                        
+            var createdBook = (result.Result as CreatedAtActionResult).Value as Book;
+
+            Assert.AreEqual(b.Title, createdBook.Title);
+            Assert.AreEqual(b.Author, createdBook.Author);
+            Assert.AreEqual(b.PageCount, createdBook.PageCount);
+            Assert.AreEqual(b.Departement, createdBook.Departement);
+            Assert.AreEqual(b.ISBN, createdBook.ISBN);            
         }
     }
 }

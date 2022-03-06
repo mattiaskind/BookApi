@@ -27,10 +27,8 @@ namespace BookApi.Data
             }
         };
 
-        // Nedanstående metoder används för att hämta och lägga in data i listan
-        // Man kan argumentera för att dessa borde ligga i en egen service-klass
-        // men eftersom metoderna skulle kunna liknas vid olika databasförfrågningar får
-        // de ändå vara kvar här, där det finns en direkt koppling till data.
+        // Nedanstående metoder utgör en slags service som sköter kommunikationen med 
+        // den så kallade databasen, dvs. listan som lagrar böcker
         
         public async Task<List<Book>> GetBooksAsync()
         {            
