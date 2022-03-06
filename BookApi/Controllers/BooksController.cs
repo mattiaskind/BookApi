@@ -25,7 +25,7 @@ namespace BookApi.Controllers
         public async Task<ActionResult<List<Book>>> GetBooksAsync()
         {
             var books = await booksDb.GetBooksAsync();
-            if (books is null || books.Count == 0) return NotFound("Books not found");
+            if (books is null || books.Count == 0) return NotFound("No books found");
             return Ok(books);
         }
 
@@ -36,7 +36,7 @@ namespace BookApi.Controllers
         public async Task<ActionResult<Book>> GetBookAsync(Guid id)
         {
             var book = await booksDb.GetBookAsync(id);
-            if (book is null) return NotFound("Book not found");
+            if (book is null) return NotFound("The book could not be found");
             return Ok(book);                
         }
 
@@ -73,7 +73,7 @@ namespace BookApi.Controllers
             Book bookToUpdate = await booksDb.GetBookAsync(id);
 
             // 404
-            if(bookToUpdate is null) return NotFound();
+            if(bookToUpdate is null) return NotFound("The book could not be found");
 
             // Skapa ett nytt objekt baserat på det nya dto-objektet men
             // utgå från existerande id

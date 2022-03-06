@@ -23,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 } else
 {
+    // Använd global felhantering i prod-miljö
     app.UseExceptionHandler("/error");
 }
 
