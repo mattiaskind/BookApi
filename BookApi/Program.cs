@@ -27,6 +27,9 @@ if (app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 //app.UseAuthorization();

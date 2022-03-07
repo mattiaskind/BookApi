@@ -11,7 +11,7 @@ namespace BookApi.Data
         /// </summary>
         /// <param name="id">Bokens id</param>
         /// <returns>Ett objekt av typen Book, annars null</returns>
-        Task<Book> GetBookAsync(Guid id);
+        Task<Book?> GetBookAsync(Guid id);
 
         /// <summary>
         /// Lägger till en bok till samlingen
@@ -22,7 +22,7 @@ namespace BookApi.Data
         /// <summary>
         /// Hämtar böckerna som finns lagrade i instansen av klassen
         /// </summary>
-        /// <returns>IEnumerable av typen Book</returns>
+        /// <returns>List av typen Book</returns>
         Task<List<Book>> GetBooksAsync();
 
         /// <summary>

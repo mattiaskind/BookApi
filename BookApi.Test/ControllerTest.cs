@@ -1,7 +1,6 @@
 using BookApi.Controllers;
 using BookApi.Data;
 using BookApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -46,7 +45,7 @@ namespace BookApi.Test
             var listOfBooks = (result.Result as OkObjectResult).Value as List<Book>;            
             Assert.AreEqual(2, listOfBooks.Count);
             Assert.IsInstanceOfType(result, typeof(ActionResult<List<Book>>));
-            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));            
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));        
         }
 
         [TestMethod]
@@ -60,7 +59,7 @@ namespace BookApi.Test
             var resultStatus = result.Result as NotFoundObjectResult;           
 
             Assert.IsInstanceOfType(result, typeof(ActionResult<List<Book>>));
-            Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult));            
+            Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult));                        
         }
 
         [TestMethod]
@@ -80,7 +79,8 @@ namespace BookApi.Test
             };
 
             var resultCreate = await controller.CreateBookAsync(b);                        
-            var createdBook = (resultCreate.Result as CreatedAtActionResult).Value as Book;            
+            var createdBook = (resultCreate.Result as CreatedAtActionResult).Value as Book;                       
+
             Assert.AreEqual(b.Title, createdBook.Title);
             Assert.AreEqual(b.Author, createdBook.Author);
             Assert.AreEqual(b.PageCount, createdBook.PageCount);

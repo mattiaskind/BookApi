@@ -35,9 +35,9 @@ namespace BookApi.Data
             return await Task.FromResult(Books);            
         }
       
-        public async Task<Book> GetBookAsync(Guid id)
+        public async Task<Book?> GetBookAsync(Guid id)
         {
-            var book = Books.Find(book => book.Id == id);            
+            var book = Books.Find(book => book.Id == id);          
             return await Task.FromResult(book);
         }
                 

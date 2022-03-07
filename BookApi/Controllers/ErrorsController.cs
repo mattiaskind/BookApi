@@ -11,7 +11,7 @@ namespace BookApi.Controllers
         [Route("/error")]
         public IActionResult Error()
         {
-            // Skafffa tillgång till felet
+            // Få tillgång till felet
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>();
             if (exception is null) return Problem();
             //var statusCode = exception.Error.GetType().Name;
