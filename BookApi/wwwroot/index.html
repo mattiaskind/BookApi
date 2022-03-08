@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="menu">
+        <form id="add-book-form">
+          <div class="form-field">
+            <label for="title">Titel</label>
+            <input type="text" name="title" id="title" />
+          </div>
+          <div class="form-field">
+            <label for="title">Författare</label>
+            <input type="text" name="author" id="author" />
+          </div>
+          <div class="form-field">
+            <label for="title">Avdelning (exempelvis skönlitteratur)</label>
+            <input type="text" name="departement" id="departement" />
+          </div>
+          <div class="form-field">
+            <label for="title">Antal sidor</label>
+            <input type="number" name="pagecount" id="pagecount" />
+          </div>
+          <div class="form-field">
+            <label for="title">ISBN</label>
+            <input type="number" name="isbn" id="isbn" />
+          </div>
+          <div class="btn-container">
+            <button id="add-book-btn">Lägg till bok</button>
+          </div>
+        </form>
+      </div>
+      <div class="books"></div>
+    </div>
+    <script src="js/site.js" asp-append-version="true"></script>
+  </body>
+</html>
