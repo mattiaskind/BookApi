@@ -43,6 +43,7 @@ namespace BookApi.Data
                 
         public async Task CreateBookAsync(Book book)
         {
+            //throw new Exception("Det går inte att lägga till boken!!");
             Books.Add(book);
             await Task.CompletedTask;
         }

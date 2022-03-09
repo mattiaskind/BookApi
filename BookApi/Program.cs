@@ -18,8 +18,7 @@ var corsPolicy = "corsPolicy";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(corsPolicy, builder =>
-    {
-        //builder.WithOrigins("https://localhost:7046/books").AllowAnyHeader().AllowAnyMethod();
+    {        
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
@@ -30,8 +29,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseCors(corsPolicy);    
+    app.UseSwaggerUI();     
 
 } else
 {
@@ -39,7 +37,18 @@ if (app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
-// För statiska filer
+/* Cors-policyn tillåter för tillfället anrop från alla ursprung vilket
+ * inte är optimalt i produktionsmiljö. Jag använder det bara nu för att
+ * kunna testa projektet men det skulle behöva konfigureras om projektet
+ * används i andra sammanhang
+*/
+app.UseCors(corsPolicy);
+
+
+/* Vid körning av projektet BookApi (client) används
+ * de statiska filerna i wwwroot som ger tillgång till ett
+ * gränsnitt som interagerar med api:t
+ */
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

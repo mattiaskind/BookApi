@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -11,32 +11,34 @@
   "profiles": {
     "BookApi": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "hotReloadEnabled": true,
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true
     },
     "BookApi (client)": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,      
-      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "hotReloadEnabled": true,
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true
     },
     "BookApi (production)": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "books/",
-      "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
-      }
+      },
+      "applicationUrl": "https://localhost:7046;http://localhost:5046",
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",

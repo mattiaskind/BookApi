@@ -25,7 +25,7 @@ namespace BookApi.Controllers
         public async Task<ActionResult<List<Book>>> GetBooksAsync()
         {
             var books = await booksDb.GetBooksAsync();
-            if (books is null || books.Count == 0) return NotFound("No books found");
+            if (books is null || books.Count == 0) return NotFound("Ingen bok hittades");
             return Ok(books);
         }
 
@@ -36,7 +36,7 @@ namespace BookApi.Controllers
         public async Task<ActionResult<Book>> GetBookAsync(Guid id)
         {
             var book = await booksDb.GetBookAsync(id);
-            if (book is null) return NotFound("No book with specified id could be found");
+            if (book is null) return NotFound("Ingen bok hittades med det angivna id:t");
             return Ok(book);                
         }
 
@@ -56,9 +56,7 @@ namespace BookApi.Controllers
                 Departement = bookDTO.Departement,
                 ISBN = bookDTO.ISBN,
             };
-            
-            // Bör try/catch finnas?
-            // Return 400 - bad request, om fel
+
             await booksDb.CreateBookAsync(book);            
             return CreatedAtAction(nameof(GetBookAsync), new { id = book.Id }, book);
         }
@@ -73,7 +71,7 @@ namespace BookApi.Controllers
             Book bookToUpdate = await booksDb.GetBookAsync(id);
 
             // 404
-            if(bookToUpdate is null) return NotFound("No book with specified id could be found");
+            if(bookToUpdate is null) return NotFound("Ingen bok hittades med angivet id");
 
             // Skapa ett nytt objekt baserat på det nya dto-objektet men
             // utgå från existerande id
@@ -101,9 +99,8 @@ namespace BookApi.Controllers
         {
             // 400 om fel, bad request
             // 404 om not found
-
             Book book = await booksDb.GetBookAsync(id);
-            if (book is null) return NotFound("No book with specified id could be found");
+            if (book is null) return NotFound("Ingen bok hittades med angivet id");
 
             await booksDb.DeleteBookAsync(book);
 

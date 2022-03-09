@@ -10,6 +10,4 @@
         public string? Departement { get; set; }
         public string? ISBN { get; set; }
     }
-
-
 }

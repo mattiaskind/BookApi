@@ -1,39 +1,42 @@
 ﻿'use strict';
 
 // Sample data
-let books = [
-  {
-    title: 'En titel på en bok',
-    author: 'Gabriel García Márquez',
-    pageCount: 430,
-    departement: 'Skönlitteratur',
-    ISBN: '9789146236108',
-  },
-  {
-    title: 'En annan bok',
-    author: 'Gabriel García Márquez',
-    pageCount: 430,
-    departement: 'Skönlitteratur',
-    ISBN: '9789146236108',
-  },
-];
+// let books = [
+//   {
+//     title: 'En titel på en bok',
+//     author: 'Gabriel García Márquez',
+//     pageCount: 430,
+//     departement: 'Skönlitteratur',
+//     isbn: '9789146236108',
+//   },
+//   {
+//     title: 'En annan bok',
+//     author: 'Gabriel García Márquez',
+//     pageCount: 430,
+//     departement: 'Skönlitteratur',
+//     isbn: '9789146236108',
+//   },
+// ];
 
 // Globals
 const uri = 'books';
-const booksContainer = document.querySelector('.books');
+const booksContainer = document.querySelector('#content');
 const addBookBtn = document.querySelector('#add-book-btn');
 const addBookForm = document.querySelector('#add-book-form');
+const formFields = document.querySelectorAll('input');
+
+const errorCard = document.querySelector('#error-card');
+const errorMsgParagraph = document.querySelector('#error-msg');
 
 getDataFromServer(uri);
 //displayAll(booksContainer, books);
 
 // Event listeners
-addBookBtn.addEventListener('click', (e) => {
+addBookForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(addBookForm);
-  for (var value of formData.values()) {
-    if (value === '') return;
-  }
+  addBookForm.classList.add('was-validated');
+  if (!addBookForm.checkValidity()) return;
   addBook(formData);
 });
 
@@ -55,25 +58,50 @@ function addBook(formData) {
     },
     body: JSON.stringify(book),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.status == 201) {
+        return response.json();
+      } else {
+        console.log('ERRROR');
+        throw new Error('Ett fel uppstod när boken skulle läggas till');
+      }
+    })
     .then(() => {
+      console.log('TRYING');
       getDataFromServer(uri);
     })
-    .catch((error) => console.error('Unable to add item.', error));
+    .catch((error) => {
+      displayError(error);
+    });
+}
+
+function displayError(msg) {
+  errorMsgParagraph.innerText = msg;
+  errorCard.classList.remove('invisible');
+}
+
+function clearErrorMsg() {
+  errorMsgParagraph.innerText = '';
+  errorCard.classList.add('invisible');
 }
 
 function getDataFromServer(uri) {
   fetch(uri)
     .then((response) => response.json())
     .then((data) => displayAll(booksContainer, data))
-    .catch((error) => console.error('Unable to get items.', error));
+    .catch((error) => console.error('Kunde inte hämta några böcker.', error));
 }
 
 // Visa allt innehåll, formulär och listan med böcker
 function displayAll(container, books) {
+  clearErrorMsg();
+  addBookForm.classList.remove('was-validated');
   container.innerHTML = '';
   displayBooks(container, books);
   displaySummary(container, books);
+  formFields.forEach((element) => {
+    element.value = '';
+  });
 }
 
 // Visar summering
@@ -85,9 +113,12 @@ function displaySummary(container, books) {
   }, 0);
 
   html += `
-  <div class="books-summary">
-    <div>Samlingen består av ${numberOfBooks} böcker</div>
-    <div>Tillsammans består böckerna av ${totalPages} sidor</div>  
+  <div class="card text-dark bg-light mb-3">
+    <div class="card-header">Sammanfattning</div>
+    <div class="card-body">
+      Samlingen består av ${numberOfBooks} böcker som totalt
+      uppgår till ${totalPages} sidor.
+    </div>
   </div>
   `;
   container.insertAdjacentHTML('afterbegin', html);
@@ -98,16 +129,16 @@ function displayBooks(container, books) {
   let html = '';
   books.forEach((book) => {
     html += `
-        <div class="book">
-            <div><h3 class="book-title">${book.title}</h3></div>
-            <div class="book-author">${book.author}</div>
-            <div class="book-info">
-                <ul>
-                    <li>${book.departement}</li>
-                    <li>${book.pageCount} sidor</li>
-                    <li>ISBN: ${book.isbn}</li>
-                </ul>
-            </div>            
+        <div class="card text-dark bg-light mb-3">
+          <div class="card-header">
+            <h3 class="card-title">${book.title}</h3>
+            <h5 class="card-text">${book.author}</h5>
+          </div>
+          <div class="card-body">
+            <span class="badge bg-secondary p-2">${book.departement}</span>
+            <span class="badge bg-secondary p-2">${book.pageCount} sidor</span>
+            <span class="badge bg-secondary p-2">ISBN: ${book.isbn}</span>          
+          </div>                      
         </div>
         `;
   });
