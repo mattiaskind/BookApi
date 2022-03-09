@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi.Controllers
 {    
+    // Fångar upp eventuella fel som uppstår
     [ApiController]
     public class ErrorsController : ControllerBase
     {        
@@ -11,10 +12,11 @@ namespace BookApi.Controllers
         [Route("/error")]
         public IActionResult Error()
         {
-            // Få tillgång till felet
+            // Hämta aktuellt fel
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            // Om det inte finns några detaljer om felet
             if (exception is null) return Problem();
-            //var statusCode = exception.Error.GetType().Name;
+            // Om detaljer finns, skicka med dessa
             return Problem(detail : exception.Error.Message);
         }
     }

@@ -3,7 +3,8 @@
 namespace BookApi.Models
 {
     // Ett data transfer object används för att inte exponera ID-egenskapen
-    // ID:t skapas automatiskt när ett nytt objekt instansieras    
+    // när det inte ska modifieras, exempelvis när ett nytt objekt skapas eller
+    // när ett objekt ändras.    
     public class BookDTO
     {
         [Required]

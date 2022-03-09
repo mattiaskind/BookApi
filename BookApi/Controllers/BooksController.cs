@@ -23,7 +23,7 @@ namespace BookApi.Controllers
         // /books
         [HttpGet]
         public async Task<ActionResult<List<Book>>> GetBooksAsync()
-        {
+        {            
             var books = await booksDb.GetBooksAsync();
             if (books is null || books.Count == 0) return NotFound("Ingen bok hittades");
             return Ok(books);
@@ -46,7 +46,7 @@ namespace BookApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> CreateBookAsync(BookDTO bookDTO)
         {
-            // Skapa ett nytt bok-objekt
+            // Skapa ett nytt bok-objekt. Generera ID automatiskt
             Book book = new Book
             {
                 Id = Guid.NewGuid(),
@@ -57,7 +57,8 @@ namespace BookApi.Controllers
                 ISBN = bookDTO.ISBN,
             };
 
-            await booksDb.CreateBookAsync(book);            
+            await booksDb.CreateBookAsync(book);   
+            // Skicka tillbaka objektet som skapades tillsammans med statuskod 201
             return CreatedAtAction(nameof(GetBookAsync), new { id = book.Id }, book);
         }
 
@@ -68,9 +69,8 @@ namespace BookApi.Controllers
         public async Task<ActionResult> UpdateBookAsync(Guid id, BookDTO bookDTO)
         {
             // Hämta den bok som ska uppdateras
-            Book bookToUpdate = await booksDb.GetBookAsync(id);
-
-            // 404
+            Book? bookToUpdate = await booksDb.GetBookAsync(id);
+            // 404  
             if(bookToUpdate is null) return NotFound("Ingen bok hittades med angivet id");
 
             // Skapa ett nytt objekt baserat på det nya dto-objektet men
@@ -99,7 +99,7 @@ namespace BookApi.Controllers
         {
             // 400 om fel, bad request
             // 404 om not found
-            Book book = await booksDb.GetBookAsync(id);
+            Book? book = await booksDb.GetBookAsync(id);
             if (book is null) return NotFound("Ingen bok hittades med angivet id");
 
             await booksDb.DeleteBookAsync(book);

@@ -7,6 +7,7 @@ namespace BookApi.Data
     {
         public List<Book> Books = new()
         {
+            // Två bok-objekt att utgå från
             new Book
             {
                 Id = Guid.NewGuid(),
@@ -27,16 +28,16 @@ namespace BookApi.Data
             }
         };
 
-        // Nedanstående metoder utgör en slags service som sköter kommunikationen med 
-        // den så kallade databasen, dvs. listan som lagrar böcker
-        
+        // Nedanstående metoder utgör en slags service som sköter kommunikationen 
+        // med listan som här utför substitut för en riktig databas        
         public async Task<List<Book>> GetBooksAsync()
         {            
             return await Task.FromResult(Books);            
         }
       
         public async Task<Book?> GetBookAsync(Guid id)
-        {
+        {            
+            // Leta reda på om angivet id finns i listan över böcker
             var book = Books.Find(book => book.Id == id);          
             return await Task.FromResult(book);
         }

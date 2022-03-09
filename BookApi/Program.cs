@@ -38,12 +38,11 @@ if (app.Environment.IsDevelopment())
 }
 
 /* Cors-policyn tillåter för tillfället anrop från alla ursprung vilket
- * inte är optimalt i produktionsmiljö. Jag använder det bara nu för att
- * kunna testa projektet men det skulle behöva konfigureras om projektet
- * används i andra sammanhang
+ * måhända inte ä optimalt men som jag använder nu för att
+ * kunna testa projektet. Detta skulle såklart behöva ses över  om projektet
+ * publiceras
 */
 app.UseCors(corsPolicy);
-
 
 /* Vid körning av projektet BookApi (client) används
  * de statiska filerna i wwwroot som ger tillgång till ett
@@ -54,6 +53,7 @@ app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
+// Ingen auth i det här projektet
 //app.UseAuthorization();
 
 app.MapControllers();
