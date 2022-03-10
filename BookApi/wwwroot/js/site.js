@@ -28,6 +28,7 @@ const errorCard = document.querySelector('#error-card');
 const errorMsgParagraph = document.querySelector('#error-msg');
 
 const bookContainer = document.querySelector('#content');
+const formContainer = document.querySelector('#form-container');
 
 getDataFromServer(uri);
 //displayAll(booksContainer, books);
@@ -87,7 +88,6 @@ function addBook(formData) {
       }
     })
     .then(() => {
-      console.log('TRYING');
       getDataFromServer(uri);
     })
     .catch((error) => {
@@ -120,8 +120,8 @@ function getDataFromServer(uri) {
 
 // Visa allt innehåll, formulär och listan med böcker
 function displayAll(container, books) {
-  clearErrorMsg();
   addBookForm.classList.remove('was-validated');
+  clearErrorMsg();
   container.innerHTML = '';
   displayBooks(container, books);
   displaySummary(container, books);
@@ -176,6 +176,7 @@ function displayBooks(container, books) {
               <span class="badge bg-secondary p-2">ISBN: ${book.isbn}</span>
             </div>
             <div class="text-end">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-update" data-id="${book.id}">Ändra</button>
               <button type="button" class="btn btn-danger btn-sm" id="btn-delete" data-id="${book.id}">Ta bort</button>
             </div>            
           </div>                      
