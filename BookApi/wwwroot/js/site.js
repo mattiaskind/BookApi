@@ -1,44 +1,37 @@
 ﻿'use strict';
 
-// Sample data
-// let books = [
-//   {
-//     title: 'En titel på en bok',
-//     author: 'Gabriel García Márquez',
-//     pageCount: 430,
-//     departement: 'Skönlitteratur',
-//     isbn: '9789146236108',
-//   },
-//   {
-//     title: 'En annan bok',
-//     author: 'Gabriel García Márquez',
-//     pageCount: 430,
-//     departement: 'Skönlitteratur',
-//     isbn: '9789146236108',
-//   },
-// ];
-
 // Globals
 const uri = 'books';
+
+//const addBookBtn = document.querySelector('#add-book-btn');
+//const formFields = document.querySelectorAll('input');
+
 const booksContainer = document.querySelector('#content');
-const addBookBtn = document.querySelector('#add-book-btn');
-const formFields = document.querySelectorAll('input');
+const formContainer = document.querySelector('#form-container');
 
 const messageCard = document.querySelector('#message-card');
 const messageParagraph = document.querySelector('#message-p');
-
-const bookContainer = document.querySelector('#content');
-const formContainer = document.querySelector('#form-container');
-
-//getDataFromServer(uri);
-//displayAll(booksContainer, books);
 
 displayAddBookForm();
 getBooks(uri);
 
 //-------------------- Event Listeners --------------------
 
-// Formulär - lägg till ny bok
+// Listan - Ta bort en bok
+booksContainer.addEventListener('click', (e) => {
+  if (e.target.id !== 'btn-delete') return;
+  e.preventDefault();
+  deleteBook(e.target.dataset.id);
+});
+
+// Listan - Ändra en bok
+booksContainer.addEventListener('click', (e) => {
+  if (e.target.id !== 'btn-update') return;
+  e.preventDefault();
+  displayUpdateForm(e.target.dataset.id);
+});
+
+// Formuläret - Lägg till en ny bok
 formContainer.addEventListener('click', (e) => {
   if (e.target.id !== 'add-book-btn') return;
   e.preventDefault();
@@ -52,30 +45,26 @@ formContainer.addEventListener('click', (e) => {
   addBook(formData);
 });
 
-bookContainer.addEventListener('click', (e) => {
-  if (e.target.id !== 'btn-delete') return;
-  e.preventDefault();
-  deleteBook(e.target.dataset.id);
-});
-
-booksContainer.addEventListener('click', (e) => {
-  if (e.target.id !== 'btn-update') return;
-  e.preventDefault();
-  displayUpdateForm(e.target.dataset.id);
-});
-
+// Formuläret - Ångra ändring
 formContainer.addEventListener('click', (e) => {
   if (e.target.id !== 'undo-btn') return;
   e.preventDefault();
   displayAddBookForm();
 });
 
+// Formuläret - Ändra en bok
 formContainer.addEventListener('click', (e) => {
-  e.preventDefault();
   if (e.target.id !== 'update-book-btn') return;
   e.preventDefault();
   const form = document.querySelector('#update-book-form');
-  console.log(form);
+  const id = document.querySelector('#update-book-btn').getAttribute('data-id');
+  const formData = new FormData(form);
+  if (!form.checkValidity()) {
+    displayMessage('Samtliga fält är obligatoriska');
+    return;
+  }
+  hideMessageCard();
+  updateBook(id, formData);
 });
 
 // -------------------- Funktioner - API-anrop --------------------
@@ -102,6 +91,44 @@ async function deleteBook(id) {
     const response = await fetch(`${uri}/${id}`, { method: 'DELETE' });
     if (response.status !== 204) throw 'Ett fel uppstod när boken skulle tas bort';
     getBooks(uri);
+  } catch (error) {
+    displayMessage(error);
+  }
+}
+
+async function updateBook(id, formData) {
+  const book = {
+    title: formData.get('title'),
+    author: formData.get('author'),
+    pageCount: parseInt(formData.get('pagecount')),
+    departement: formData.get('departement'),
+    isbn: formData.get('isbn'),
+  };
+
+  try {
+    const response = await fetch(`${uri}/${id}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(book),
+    });
+    if (response.status !== 204) {
+      const json = await response.json();
+      let errorMessage = `
+          <ul class="list-group">
+          `;
+      for (let [_, value] of Object.entries(json.errors)) {
+        errorMessage += `<li class="list-group-item list-group-item-warning">${value[0]}</li>`;
+      }
+      errorMessage += `
+          </ul>`;
+      throw errorMessage;
+    } else {
+      displayAddBookForm();
+      getBooks(uri);
+    }
   } catch (error) {
     displayMessage(error);
   }
@@ -147,11 +174,6 @@ async function addBook(formData) {
 
 // -------------------- Funktioner - Gränssnitt --------------------
 
-// function displayError(msg) {
-//   messageParagraph.innerHTML = msg;
-//   messageCard.classList.remove('invisible');
-// }
-
 function displayMessage(msg) {
   messageCard.classList.remove('invisible');
   messageParagraph.innerHTML = msg;
@@ -167,7 +189,6 @@ function resetForm() {
   inputs.forEach((input) => (input.value = ''));
 }
 
-// Visar summering
 function displaySummary(container, books) {
   let html = '';
   const numberOfBooks = books.length;
@@ -190,8 +211,11 @@ function displaySummary(container, books) {
 function displayBooks(container, books) {
   container.innerHTML = '';
   if (books === null) return;
+
   displaySummary(container, books);
+
   let html = '';
+  // Primitiv sortering på efternamn
   books.sort((a, b) => {
     const authorA = a.author.split(' ');
     const authorB = b.author.split(' ');
@@ -232,57 +256,23 @@ function displayAddBookForm() {
   <form id="add-book-form">
     <div class="mb-2">
       <label for="title" class="form-label">Titel</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        class="form-control"
-        required
-      />
+      <input type="text" name="title" id="title" class="form-control" required />
     </div>
     <div class="mb-2">
       <label for="title" class="form-label">Författare</label>
-      <input
-        type="text"
-        name="author"
-        id="author"
-        class="form-control"
-        required
-      />
+      <input type="text" name="author" id="author" class="form-control" required />
     </div>
     <div class="mb-2">
-      <label for="title" class="form-label"
-        >Avdelning (exempelvis skönlitteratur)</label
-      >
-      <input
-        type="text"
-        name="departement"
-        id="departement"
-        class="form-control"
-        required
-      />
+      <label for="title" class="form-label">Avdelning (exempelvis skönlitteratur)</label>
+      <input type="text" name="departement" id="departement" class="form-control" required />
     </div>
     <div class="mb-2">
       <label for="title" class="form-label">Antal sidor</label>
-      <input
-        type="number"
-        name="pagecount"
-        id="pagecount"
-        class="form-control"
-        required
-      />
+      <input type="number" name="pagecount" id="pagecount" class="form-control" required />
     </div>
     <div class="mb-3">
-      <label for="title" class="form-label"
-        >ISBN (måste vara mellen 10 och 13 siffror)</label
-      >
-      <input
-        type="number"
-        name="isbn"
-        id="isbn"
-        class="form-control"
-        required
-      />
+      <label for="title" class="form-label">ISBN (måste vara mellen 10 och 13 siffror)</label>
+      <input type="number" name="isbn" id="isbn" class="form-control" required />
     </div>
     <div class="mb-3">       
       <button type="button" class="btn btn-primary" id="add-book-btn">Lägg till bok</button>
@@ -309,62 +299,23 @@ async function displayUpdateForm(id) {
   <form id="update-book-form">
     <div class="mb-2">
       <label for="title" class="form-label">Titel</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        class="form-control"
-        value="${data.title}"
-        required
-      />
+      <input type="text" name="title" id="title" class="form-control" value="${data.title}" required />
     </div>
     <div class="mb-2">
       <label for="title" class="form-label">Författare</label>
-      <input
-        type="text"
-        name="author"
-        id="author"
-        class="form-control"
-        value="${data.author}"
-        required
-      />
+      <input type="text" name="author" id="author" class="form-control" value="${data.author}" required />
     </div>
     <div class="mb-2">
-      <label for="title" class="form-label"
-        >Avdelning (exempelvis skönlitteratur)</label
-      >
-      <input
-        type="text"
-        name="departement"
-        id="departement"
-        class="form-control"
-        value="${data.departement}"
-        required
-      />
+      <label for="title" class="form-label">Avdelning (exempelvis skönlitteratur)</label>
+      <input type="text" name="departement" id="departement" class="form-control" value="${data.departement}" required />
     </div>
     <div class="mb-2">
       <label for="title" class="form-label">Antal sidor</label>
-      <input
-        type="number"
-        name="pagecount"
-        id="pagecount"
-        class="form-control"
-        value="${data.pageCount}"        
-        required
-      />
+      <input type="number" name="pagecount" id="pagecount" class="form-control" value="${data.pageCount}" required />
     </div>
     <div class="mb-3">
-      <label for="title" class="form-label"
-        >ISBN (måste vara mellen 10 och 13 siffror)</label
-      >
-      <input
-        type="number"
-        name="isbn"
-        id="isbn"
-        class="form-control"
-        value="${data.isbn}"
-        required
-      />
+      <label for="title" class="form-label">ISBN (måste vara mellen 10 och 13 siffror)</label>
+      <input type="number" name="isbn" id="isbn" class="form-control" value="${data.isbn}" required />
     </div>
     <div class="mb-3">       
       <button type="button" class="btn btn-secondary" id="undo-btn">Ångra</button>
