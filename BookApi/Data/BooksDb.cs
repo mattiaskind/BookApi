@@ -28,8 +28,8 @@ namespace BookApi.Data
             }
         };
 
-        // Nedanstående metoder utgör en slags service som sköter kommunikationen 
-        // med listan som här utför substitut för en riktig databas        
+        // Nedanstående metoder sköter kommunikationen med listan som lagrar
+        // alla bok-objekt
         public async Task<List<Book>> GetBooksAsync()
         {            
             return await Task.FromResult(Books);            

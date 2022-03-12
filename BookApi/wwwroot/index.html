@@ -15,79 +15,17 @@
   <body>
     <div class="container-md">
       <div class="row gx-5 mt-5">
-        <div class="col-md-4 p-2"></div>
-        <div class="col-md-8 p-2">
-          <h2 class="text-primary ps-4">Här är dina böcker!</h2>
+        <div class="col-md-4 p-2">
+          <h2 class="text-primary ps-4">Book API</h2>
         </div>
+        <div class="col-md-8 p-2"></div>
       </div>
       <div class="row gx-5 mt-2">
-        <div class="col-md-4" id="form-container">
-          <form id="add-book-form" class="needs-validation" novalidate>
-            <div class="mb-2">
-              <label for="title" class="form-label">Titel</label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="mb-2">
-              <label for="title" class="form-label">Författare</label>
-              <input
-                type="text"
-                name="author"
-                id="author"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="mb-2">
-              <label for="title" class="form-label"
-                >Avdelning (exempelvis skönlitteratur)</label
-              >
-              <input
-                type="text"
-                name="departement"
-                id="departement"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="mb-2">
-              <label for="title" class="form-label">Antal sidor</label>
-              <input
-                type="number"
-                name="pagecount"
-                id="pagecount"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="title" class="form-label"
-                >ISBN (måste vara mellen 10 och 13 siffror)</label
-              >
-              <input
-                type="number"
-                name="isbn"
-                id="isbn"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <button type="submit" class="btn btn-primary" id="add-book-btn">
-                Lägg till bok
-              </button>
-            </div>
-          </form>
-
-          <div class="card text-white bg-danger mb-3 invisible" id="error-card">
+        <div class="col-md-4">
+          <div id="form-container"></div>
+          <div class="card text-dark bg-warning mb-3 invisible" id="message-card">
             <div class="card-body">
-              <h5 class="card-title">Något gick fel</h5>
-              <p class="card-text" id="error-msg"></p>
+              <p class="card-text" id="message-p"></p>
             </div>
           </div>
         </div>

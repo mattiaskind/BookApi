@@ -45,7 +45,8 @@ namespace BookApi.Controllers
         // /books
         [HttpPost]
         public async Task<ActionResult<Book>> CreateBookAsync(BookDTO bookDTO)
-        {
+        {            
+
             // Skapa ett nytt bok-objekt. Generera ID automatiskt
             Book book = new Book
             {

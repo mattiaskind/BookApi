@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookApi.Controllers
 {    
-    // Fångar upp eventuella fel som uppstår
+    // Fångar upp eventuella fel
     [ApiController]
     public class ErrorsController : ControllerBase
     {        
