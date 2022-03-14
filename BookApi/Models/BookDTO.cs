@@ -7,7 +7,7 @@ namespace BookApi.Models
     public class BookDTO
     {        
         [Required]
-        [RegularExpression(@"^[a-öA-Ö'0-9 :-]+$", ErrorMessage = "Titeln innehåller otillåtna tecken")]
+        [RegularExpression(@"^[a-öA-Ö'0-9 :-\\.]+$", ErrorMessage = "Titeln innehåller otillåtna tecken")]
         public string? Title { get; set; }
         
         [Required]
