@@ -18,9 +18,10 @@ namespace BookApi.Controllers
             this.booksDb = booksDb;
         }
 
-        // GET
-        // Hämta alla böcker i listan
+        // GET        
         // /books
+        // Hämta alla böcker i listan, returnera status 200 OK om det
+        // finns böcker i listans, annars NotFound 404.
         [HttpGet]
         public async Task<ActionResult<List<Book>>> GetBooksAsync()
         {            
@@ -30,8 +31,9 @@ namespace BookApi.Controllers
         }
 
         // GET
-        // Hämta en bok
         // /books/{id}
+        // Hämta en bok, Returnera boken tillsammans med status 200 OK om en bok hittas
+        // annars returnera NotFound status 404.
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBookAsync(Guid id)
         {
@@ -41,12 +43,13 @@ namespace BookApi.Controllers
         }
 
         // POST
-        // Lägg till en bok i listan
         // /books
+        // Lägg till en bok i listan
+        // Skapa ett nytt bok-objekt. Returnera boken som skapades tillsammans med
+        // status 201
         [HttpPost]
         public async Task<ActionResult<Book>> CreateBookAsync(BookDTO bookDTO)
-        {            
-
+        { 
             // Skapa ett nytt bok-objekt. Generera ID automatiskt
             Book book = new Book
             {
@@ -64,8 +67,9 @@ namespace BookApi.Controllers
         }
 
         // PUT
-        // Uppdatera en bok som finns i listan
         // /book/{id}
+        // Uppdatera en bok som finns i listan och returnera status 204. 
+        // Om ingen bok hittas returnera NotFound status 404.        
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateBookAsync(Guid id, BookDTO bookDTO)
         {
@@ -93,13 +97,12 @@ namespace BookApi.Controllers
         }
 
         // DELETE
-        // Ta bort en bok från listan
         // /book/{id}
+        // Ta bort en bok från listan och returnera status 204.
+        // Om ingen bok hittas, returnera 404.
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteBook(Guid id)
-        {
-            // 400 om fel, bad request
-            // 404 om not found
+        {           
             Book? book = await booksDb.GetBookAsync(id);
             if (book is null) return NotFound("Ingen bok hittades med angivet id");
 

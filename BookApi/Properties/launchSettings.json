@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "BookApi": {
+    "BookApi (swagger)": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -20,7 +20,7 @@
       "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "dotnetRunMessages": true
     },
-    "BookApi (client)": {
+    "BookApi (front end)": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
@@ -30,7 +30,7 @@
       "applicationUrl": "https://localhost:7046;http://localhost:5046",
       "dotnetRunMessages": true
     },
-    "BookApi (production)": {
+    "BookApi (api)": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "books/",

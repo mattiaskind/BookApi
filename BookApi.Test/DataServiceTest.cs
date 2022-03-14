@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookApi.Test
 {   
-
+    
     [TestClass]
     public class DataServiceTest
     {
@@ -26,6 +26,17 @@ namespace BookApi.Test
         {
             var books = await BooksDatabase.GetBooksAsync();
             Assert.AreEqual(2, books.Count);
+        }
+
+        [TestMethod]
+        public async Task GetBook_Returns_A_Book()
+        {
+            var books = await BooksDatabase.GetBooksAsync();
+            var bookId = books[0].Id;
+
+            var book = await BooksDatabase.GetBookAsync(bookId);
+            Assert.IsNotNull(book);
+            Assert.AreEqual(book.Id, bookId);
         }
 
         [TestMethod]

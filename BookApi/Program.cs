@@ -37,10 +37,9 @@ if (app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
-/* Cors-policyn tillåter för tillfället anrop från alla ursprung vilket
- * måhända inte ä optimalt men som jag använder nu för att
- * kunna testa projektet. Detta skulle såklart behöva ses över  om projektet
- * publiceras
+/* Cors-policyn tillåter för tillfället anrop från alla ursprung för
+ * att göra det enklare att testa api:t fullt ut. Skulle behöva ses
+ * över vid publicering
 */
 app.UseCors(corsPolicy);
 
