@@ -1,14 +1,9 @@
 ﻿'use strict';
 
-// Globals
+// Globala variabler
 const uri = 'books';
-
-//const addBookBtn = document.querySelector('#add-book-btn');
-//const formFields = document.querySelectorAll('input');
-
 const booksContainer = document.querySelector('#content');
 const formContainer = document.querySelector('#form-container');
-
 const messageCard = document.querySelector('#message-card');
 const messageParagraph = document.querySelector('#message-p');
 

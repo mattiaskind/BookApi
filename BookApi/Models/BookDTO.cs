@@ -5,9 +5,11 @@ namespace BookApi.Models
     // Ett data transfer object används för att inte exponera ID-egenskapen
     // när ett nytt objekt skapas eller när ett objekt ändras.    
     public class BookDTO
-    {        
+    {
+        // Regexen tillåter inga specialtecken, vilket skulle behöva förfinas en del men som det är nu
+        // förhindras i alla fall att html-taggar skrivs in
         [Required]
-        [RegularExpression(@"^[a-öA-Ö'0-9 :-\\.]+$", ErrorMessage = "Titeln innehåller otillåtna tecken")]
+        [RegularExpression(@"^[a-öA-Ö'0-9 :-]+$", ErrorMessage = "Titeln innehåller otillåtna tecken")]        
         public string? Title { get; set; }
         
         [Required]

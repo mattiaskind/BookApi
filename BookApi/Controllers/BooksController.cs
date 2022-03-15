@@ -91,7 +91,7 @@ namespace BookApi.Controllers
             };            
 
             // Updatera aktuell bok med den nya informationen
-            await booksDb.UpdateBookAsync(updatedBook);
+            await booksDb.UpdateBookAsync(updatedBook);                       
 
             return NoContent();
         }
