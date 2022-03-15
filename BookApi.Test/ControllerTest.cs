@@ -115,9 +115,8 @@ namespace BookApi.Test
                 ISBN = "9789180230000"
             };
             
-            var result = controller.UpdateBookAsync(bookInCollection.Id, bookToUpdate);
-            
-            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult));
+            var result = await controller.UpdateBookAsync(bookInCollection.Id, bookToUpdate);            
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
         }
     }
 }
