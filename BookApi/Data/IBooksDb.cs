@@ -14,6 +14,13 @@ namespace BookApi.Data
         Task<Book?> GetBookAsync(Guid id);
 
         /// <summary>
+        /// Hämtar en specifik bok utifrån ISBN
+        /// </summary>
+        /// <param name="isbn">Bokens ISBN</param>
+        /// <returns>Ett objekt av typen Book, annars null</returns>
+        Task<Book?> GetBookByIsbnAsync(string isbn);
+
+        /// <summary>
         /// Lägger till en bok till samlingen
         /// </summary>
         /// <param name="book">Boken som ska läggas till. Ett objekt av typen Book</param>

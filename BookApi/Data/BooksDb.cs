@@ -41,6 +41,13 @@ namespace BookApi.Data
             var book = Books.Find(book => book.Id == id);          
             return await Task.FromResult(book);
         }
+
+        public async Task<Book?> GetBookByIsbnAsync(string isbn)
+        {
+            // Leta efter en bok i listan med angivet isbn
+            var book = Books.Find(book => book.ISBN == isbn);
+            return await Task.FromResult(book);
+        }
                 
         public async Task CreateBookAsync(Book book)
         {            

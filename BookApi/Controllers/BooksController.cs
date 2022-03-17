@@ -42,6 +42,18 @@ namespace BookApi.Controllers
             return Ok(book);                
         }
 
+        // GET
+        // /books/isbn/{id}
+        // Hämta en bok baserat på isbn. Returnerar boken med status 200 OK om en bok hittas
+        // annars NotFound 404.
+        [HttpGet("isbn/{isbn}")]
+        public async Task<ActionResult<Book>> GetBookIsbnAsync(string isbn)
+        {
+            var book = await booksDb.GetBookByIsbnAsync(isbn);
+            if (book is null) return NotFound("Ingen bok hittades med angivet ISBN");
+            return Ok(book);
+        }
+
         // POST
         // /books
         // Lägg till en bok i listan
