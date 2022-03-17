@@ -44,7 +44,7 @@ namespace BookApi.Controllers
 
         // GET
         // /books/isbn/{id}
-        // Hämta en bok baserat på isbn. Returnerar boken med status 200 OK om en bok hittas
+        // Hämta en bok baserat på isbn. Returnerar boken med status 200 OK om en bok hittas,
         // annars NotFound 404.
         [HttpGet("isbn/{isbn}")]
         public async Task<ActionResult<Book>> GetBookIsbnAsync(string isbn)

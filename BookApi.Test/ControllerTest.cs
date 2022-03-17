@@ -13,7 +13,32 @@ namespace BookApi.Test
 {
     [TestClass]
     public class ControllerTest
-    {        
+    {
+        
+        [TestMethod]
+        public async Task Get_Book_By_ISBN_Successful()
+        {
+            Book requestedBook = new Book
+            {
+                Id = Guid.NewGuid(),
+                Title = "Titel",
+                Author = "Författare",
+                Departement = "Avdelning",
+                PageCount = 300,
+                ISBN = "0123456789"
+            };
+            var mockBooksDb = new Mock<IBooksDb>();
+            mockBooksDb.Setup(x => x.GetBookByIsbnAsync(It.IsAny<string>())).ReturnsAsync(requestedBook);
+
+            var controller = new BooksController(mockBooksDb.Object);
+            var result = await controller.GetBookIsbnAsync(requestedBook.ISBN);
+
+            var resultBook = (result.Result as OkObjectResult).Value as Book;
+
+            Assert.IsInstanceOfType(result, typeof(ActionResult<Book>));
+            Assert.AreEqual(requestedBook.Title, resultBook.Title);
+        }            
+
         [TestMethod]
         public async Task Get_All_Books_Successful()
         {
