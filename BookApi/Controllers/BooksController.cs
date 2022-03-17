@@ -43,7 +43,7 @@ namespace BookApi.Controllers
         }
 
         // GET
-        // /books/isbn/{id}
+        // /books/isbn/{isbn}
         // Hämta en bok baserat på isbn. Returnerar boken med status 200 OK om en bok hittas,
         // annars NotFound 404.
         [HttpGet("isbn/{isbn}")]
